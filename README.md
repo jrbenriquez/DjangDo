@@ -1,7 +1,7 @@
 
 DjangDo
 
-Simple ToDo Web App
+Simple Web ToDo App
 
 A simple project to explore Django and perhaps get things done
 
