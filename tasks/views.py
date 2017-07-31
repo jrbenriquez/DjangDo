@@ -6,7 +6,8 @@ from django.shortcuts import get_object_or_404
 def home(request):
     try:
         description = request.POST.get('description')
-        newTask = Task.objects.create(descriptor=description)
+        if description is not None:
+            newTask = Task.objects.create(descriptor=description)
     except Exception as e: print(str(e))
     tasks = Task.objects.order_by('updatedOn')
     return render(request,'tasks/home.html', { 'tasks': tasks })
