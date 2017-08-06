@@ -15,6 +15,7 @@ def home(request):
 def toggle(request, task_id):
     task = get_object_or_404(Task,pk=task_id)
     task.toggle_active_state()
+    print(task.createdOn)
     task.save()
     tasks = Task.objects.order_by('updatedOn')
     return render(request,'tasks/home.html', { 'tasks': tasks })
