@@ -19,7 +19,16 @@
     <![endif]-->
     
     <!--- NO JS for Actions pure POST and URL pa lang :( -->
-  </head>
+    <style>
+	input[type=submit].link { 
+		border: none;
+		background: none; 
+		display: inline; 
+		color: blue; 
+		text-decoration: underline; 
+	}
+ </style>
+</head>
   <body>
         <div class="container">
             <h1><a href="{% url 'home' %}">DjangDo</a></h1> 
@@ -39,13 +48,24 @@
                     <div class="container">
                     <div class="row">
                         <div class="col-xs-3">
-                            <a href="{% url 'toggle' task.id %}">
-                            <p style="font-size:200%;color:#4099FF;"><strong>{{ task.descriptor }}</strong></p>
+           		    <form id="form_toggle{{ task.id }}" action="{% url 'toggle' %}" method="post">
+                		{% csrf_token %}
+				<input type="hidden" value="{{ task.id }}" name="id" />   
+           		    	<a href="javascript:{}" onclick="document.getElementById('form_toggle{{ task.id }}').submit();">
+					<p style="font-size:200%;color:#4099FF;"><strong>{{ task.descriptor }}</strong></p>
+				</a>
+			    </form>
                             {{ task.ph_time }}
                             </a>
                         </div>
-                        <div class="col-xs-2">
-                            <a href="{% url 'done' task.id %}"><span  style="font-size: 40px;"class="glyphicon glyphicon-ok" aria-hidden="true"></span></a>
+                        
+			<div class="col-xs-2">
+           			 <form id="form_done{{ task.id }}" action="{% url 'done' %}" method="post">
+                			 {% csrf_token %}
+					<input type="hidden" value="{{ task.id }}" name="id" />   
+           			 </form>
+     				<span onclick="taskDone({{ task.id }})"  style="font-size: 40px;color:#4099FF;" class="glyphicon glyphicon-ok" aria-hidden="true"></span> 
+                            
                         </div>
                     </div>
                     </div>
@@ -55,10 +75,15 @@
             
             {% for task in tasks.all %}
                 {% if not task.activeState and not task.doneState %}
-                    <a href="{% url 'toggle' task.id %}">
-                    {{ task.descriptor }}
-                    <span class="glyphicon glyphicon-play" aria-hidden="true"></span></a>
-                    <br><br>
+           		    <form id="form_toggle{{ task.id }}" action="{% url 'toggle' %}" method="post">
+                		{% csrf_token %}
+				<input type="hidden" value="{{ task.id }}" name="id" />   
+           		    	<a href="javascript:{}" onclick="document.getElementById('form_toggle{{ task.id }}').submit();">
+					{{ task.descriptor }}
+                   			<span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+				</a>
+			    </form>
+			<br><br>
                 {% endif %}
             {% endfor %}
             
@@ -68,7 +93,23 @@
                 {% endif %}
             {% endfor %}
         </div>
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script>
+	
+
+	function taskDone(taskid) {	
+                var formname = 'form_done' + taskid 
+		document.getElementById(formname).submit();
+	
+	}
+
+
+
+	
+
+
+	
+	</script>   
+ <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>

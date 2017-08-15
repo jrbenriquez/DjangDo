@@ -21,6 +21,6 @@ import tasks.views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', tasks.views.home, name='home' ),
-    url(r'^update/(?P<task_id>[0-9]+)?', tasks.views.toggle, name='toggle'),
-    url(r'^done/(?P<task_id>[0-9]+)?', tasks.views.done, name='done'),
+    url(r'^update/', tasks.views.toggle, name='toggle'),
+    url(r'^done/', tasks.views.done, name='done'),
 ]

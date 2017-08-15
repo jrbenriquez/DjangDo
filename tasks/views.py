@@ -12,7 +12,8 @@ def home(request):
     tasks = Task.objects.order_by('updatedOn')
     return render(request,'tasks/home.html', { 'tasks': tasks })
     
-def toggle(request, task_id):
+def toggle(request):
+    task_id = request.POST.get('id')	
     task = get_object_or_404(Task,pk=task_id)
     task.toggle_active_state()
     print(task.createdOn)
@@ -20,7 +21,8 @@ def toggle(request, task_id):
     tasks = Task.objects.order_by('updatedOn')
     return render(request,'tasks/home.html', { 'tasks': tasks })
     
-def done(request, task_id):
+def done(request):
+    task_id = request.POST.get('id')	
     task = get_object_or_404(Task,pk=task_id)
     task.set_as_done()
     task.save()
